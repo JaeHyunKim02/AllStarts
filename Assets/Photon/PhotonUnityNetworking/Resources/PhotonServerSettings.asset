@@ -13,7 +13,7 @@ MonoBehaviour:
   m_Name: PhotonServerSettings
   m_EditorClassIdentifier: 
   AppSettings:
-    AppIdRealtime: 73c8e171-4e78-441e-8100-248d4868ef76
+    AppIdRealtime: 
     AppIdChat: 
     AppIdVoice: 
     AppVersion: 
@@ -37,8 +37,8 @@ MonoBehaviour:
   - DirRPC
   - Fire
   - FlipXRPC
+  - GunDir
   - JumpRPC
   - RespawnSpaceship
-  - GunDir
   DisableAutoOpenWizard: 1
-  ShowSettings: 1
+  ShowSettings: 0
