@@ -45,16 +45,13 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
             CM.LookAt = transform;
         }
 		MyDelay = 0;
-		
-
 	}
 
 
 	void Update()
     { 
         if (PV.IsMine)
-        {
-
+		{
 			/* #region  // ← → 이동
 			float axis = Input.GetAxisRaw("Horizontal");
 			float axis2 = Input.GetAxisRaw("Vertical");

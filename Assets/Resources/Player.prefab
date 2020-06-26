@@ -995,4 +995,5 @@ MonoBehaviour:
   NickNameText: {fileID: 8375901364521192189}
   HealthImage: {fileID: 8375901364045505310}
   Gun: {fileID: 2924828527957726657}
+  DelayTime: 0.092
   MoveSpeed: 30
