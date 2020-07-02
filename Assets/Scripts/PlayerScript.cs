@@ -8,8 +8,8 @@ using Cinemachine;
 
 public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 {
-    public Rigidbody2D RB;
-    public Animator AN;
+    public Rigidbody2D rigidbody;
+    public Animator animator;
     public SpriteRenderer SR;
     public PhotonView PV;
     public Text NickNameText;
@@ -37,7 +37,11 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
         NickNameText.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
         NickNameText.color = PV.IsMine ? Color.green : Color.red;
 
-        if (PV.IsMine)
+		animator.SetBool("Idle", true);
+		animator.SetBool("Run", false);	
+		animator.SetBool("Die", false);
+
+		if (PV.IsMine)
         {
             // 2D 카메라
             var CM = GameObject.Find("CMCamera").GetComponent<CinemachineVirtualCamera>();
@@ -69,8 +73,21 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 
 			MoveCon.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
 			MoveCon = MoveCon.normalized * MoveSpeed * Time.deltaTime;
-			RB.MovePosition(transform.position + MoveCon);
+			rigidbody.MovePosition(transform.position + MoveCon);
+			if(Input.GetAxisRaw("Horizontal") != 0 || Input.GetAxisRaw("Vertical") != 0 )
+			{
+				animator.SetBool("Run", true);
+				animator.SetBool("Idle", false);
+				Debug.Log("이동 들어옴");
+			}
+			else
+			{
+				Debug.Log("이동아님 아이들 상태");
 
+				animator.SetBool("Run", false);
+				animator.SetBool("Idle", true);
+
+			}
 			//if (Input.GetAxisRaw("Horizontal"))
 			//{
 			//	AN.SetBool("walk", true);
@@ -91,9 +108,9 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 				PhotonNetwork.Instantiate("Bullet", transform.position + new Vector3(0, 0, 0), Quaternion.identity)
 					.GetComponent<PhotonView>().RPC("DirRPC", RpcTarget.All, dir);
 				MyDelay = 0.0f;
-				AN.SetTrigger("shot");
+				animator.SetTrigger("shot");
 			}
-			PV.RPC("GunDir", RpcTarget.AllBuffered, Gun.transform.rotation);
+			//PV.RPC("GunDir", RpcTarget.AllBuffered, Gun.transform.rotation);
 
 		}
 		// IsMine이 아닌 것들은 부드럽게 위치 동기화
@@ -108,8 +125,8 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void JumpRPC()
     {
-        RB.velocity = Vector2.zero;
-        RB.AddForce(Vector2.up * 700);
+		rigidbody.velocity = Vector2.zero;
+		rigidbody.AddForce(Vector2.up * 700);
     }
 
     public void Hit()
@@ -125,8 +142,8 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     [PunRPC]
     void DestroyRPC() => Destroy(gameObject);
 
-	[PunRPC]
-	void GunDir(Vector3 gunDir) => this.m_GunDir = gunDir;
+	//[PunRPC]
+	//void GunDir(Vector3 gunDir) => this.m_GunDir = gunDir;
 
 
 	public void OnPhotonSerializeView(PhotonStream stream, PhotonMessageInfo info)
