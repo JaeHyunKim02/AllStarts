@@ -37,8 +37,7 @@ MonoBehaviour:
   - DirRPC
   - Fire
   - FlipXRPC
-  - GunDir
   - JumpRPC
   - RespawnSpaceship
   DisableAutoOpenWizard: 1
-  ShowSettings: 0
+  ShowSettings: 1

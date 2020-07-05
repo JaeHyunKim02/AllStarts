@@ -12,7 +12,7 @@ public class BulletScript : MonoBehaviourPunCallbacks
 
 	void Start()
 	{
-		Destroy(gameObject, 5.0f);
+		Destroy(gameObject, 3.0f);
 	}
 	void Update() => transform.Translate(7 * Time.deltaTime* dir.normalized);
 

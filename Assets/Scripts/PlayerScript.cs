@@ -31,6 +31,12 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 	[SerializeField]
 	float MoveSpeed = 10.0f;
 	Vector3 MoveCon;
+
+	[SerializeField]
+	GameObject m_Bullet;
+
+	
+
     void Awake()
     {
         // 닉네임
@@ -56,20 +62,6 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     { 
         if (PV.IsMine)
 		{
-			/* #region  // ← → 이동
-			float axis = Input.GetAxisRaw("Horizontal");
-			float axis2 = Input.GetAxisRaw("Vertical");
-
-			m_Pos = gameObject.transform.position;
-
-			m_Pos.x += 0.05f * axis;
-			m_Pos.y += 0.05f * axis2;
-
-			gameObject.transform.position = m_Pos;
-
-			RB.velocity = new Vector2(4 * axis, RB.velocity.y);
-			#endregion
-			*/
 
 			MoveCon.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
 			MoveCon = MoveCon.normalized * MoveSpeed * Time.deltaTime;
@@ -78,12 +70,10 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 			{
 				animator.SetBool("Run", true);
 				animator.SetBool("Idle", false);
-				Debug.Log("이동 들어옴");
+				PV.RPC("FlipXRPC", RpcTarget.AllBuffered, -Input.GetAxisRaw("Horizontal"));
 			}
 			else
 			{
-				Debug.Log("이동아님 아이들 상태");
-
 				animator.SetBool("Run", false);
 				animator.SetBool("Idle", true);
 
@@ -105,8 +95,10 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 			{
 				Vector2 dir = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 
-				PhotonNetwork.Instantiate("Bullet", transform.position + new Vector3(0, 0, 0), Quaternion.identity)
+				PhotonNetwork.Instantiate("DevilBullet", transform.position + new Vector3(0, 0, 0), Quaternion.identity)
 					.GetComponent<PhotonView>().RPC("DirRPC", RpcTarget.All, dir);
+				//PhotonNetwork.Instantiate("DevilBullet", transform.position + new Vector3(0, 0, 0), Quaternion.identity)
+				//	.GetComponent<PhotonView>().RPC("DirRPC", RpcTarget.All, dir);
 				MyDelay = 0.0f;
 				animator.SetTrigger("shot");
 			}

@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 4c8d7087c7fd4a64ca632cf880d180cb
+guid: 64287fd9d2e1a5a4d87f8ba78c35f7f4
 TrueTypeFontImporter:
   externalObjects: {}
   serializedVersion: 4
@@ -8,9 +8,9 @@ TrueTypeFontImporter:
   characterSpacing: 0
   characterPadding: 1
   includeFontData: 1
-  fontName: BM JUA_TTF
+  fontName: BM DoHyeon
   fontNames:
-  - BM JUA_TTF
+  - BM DoHyeon
   fallbackFontReferences: []
   customCharacters: 
   fontRenderingMode: 0
