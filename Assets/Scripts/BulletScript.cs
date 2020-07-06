@@ -9,12 +9,14 @@ public class BulletScript : MonoBehaviourPunCallbacks
     public PhotonView PV;
     Vector2 dir;
 
+	[SerializeField]
+	int Speed = 7;
 
 	void Start()
 	{
 		Destroy(gameObject, 3.0f);
 	}
-	void Update() => transform.Translate(7 * Time.deltaTime* dir.normalized);
+	void Update() => transform.Translate(Speed * Time.deltaTime* dir.normalized);
 
 
     void OnTriggerEnter2D(Collider2D col) // col을 RPC의 매개변수로 넘겨줄 수 없다
