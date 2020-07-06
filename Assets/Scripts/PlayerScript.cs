@@ -37,7 +37,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     void Awake()
     {
 		HpBar2 = GameObject.Find("PlayerHpBar");
-
+		HpBar2.GetComponent<Image>().fillAmount = 1;
 		// 닉네임
 		NickNameText.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
         NickNameText.color = PV.IsMine ? Color.green : Color.red;

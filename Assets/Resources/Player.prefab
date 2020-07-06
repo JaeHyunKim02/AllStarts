@@ -849,7 +849,7 @@ MonoBehaviour:
   HpBar2: {fileID: 0}
   Gun: {fileID: 2924828527957726657}
   DelayTime: 0.092
-  MoveSpeed: 30
+  MoveSpeed: 17
 --- !u!1 &8496656147786382808
 GameObject:
   m_ObjectHideFlags: 0
