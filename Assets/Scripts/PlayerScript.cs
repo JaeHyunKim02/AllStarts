@@ -16,6 +16,9 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     public Image HealthImage;
 
 	[SerializeField]
+	GameObject HpBar2;
+
+	[SerializeField]
 	private GameObject Gun;
     bool isGround;
     Vector3 curPos;
@@ -31,16 +34,12 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 	[SerializeField]
 	float MoveSpeed = 10.0f;
 	Vector3 MoveCon;
-
-	[SerializeField]
-	GameObject m_Bullet;
-
-	
-
     void Awake()
     {
-        // 닉네임
-        NickNameText.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
+		HpBar2 = GameObject.Find("PlayerHpBar");
+
+		// 닉네임
+		NickNameText.text = PV.IsMine ? PhotonNetwork.NickName : PV.Owner.NickName;
         NickNameText.color = PV.IsMine ? Color.green : Color.red;
 
 		animator.SetBool("Idle", true);
@@ -62,6 +61,20 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
     { 
         if (PV.IsMine)
 		{
+			/* #region  // ← → 이동
+			float axis = Input.GetAxisRaw("Horizontal");
+			float axis2 = Input.GetAxisRaw("Vertical");
+
+			m_Pos = gameObject.transform.position;
+
+			m_Pos.x += 0.05f * axis;
+			m_Pos.y += 0.05f * axis2;
+
+			gameObject.transform.position = m_Pos;
+
+			RB.velocity = new Vector2(4 * axis, RB.velocity.y);
+			#endregion
+			*/
 
 			MoveCon.Set(Input.GetAxisRaw("Horizontal"), Input.GetAxisRaw("Vertical"), 0);
 			MoveCon = MoveCon.normalized * MoveSpeed * Time.deltaTime;
@@ -87,7 +100,7 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 
 			Vector2 len = Camera.main.ScreenToWorldPoint(Input.mousePosition) - transform.position;
 			float z = Mathf.Atan2(len.y, len.x) * Mathf.Rad2Deg;
-			Gun.transform.rotation = Quaternion.Euler(0, 0, z-90);
+			Gun.transform.rotation = Quaternion.Euler(0, 0, z-45);
 			//m_GunDir = new Vector3(Gun.transform.rotation.x, Gun.transform.rotation.y);
 
 			MyDelay += Time.deltaTime;
@@ -97,8 +110,6 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 
 				PhotonNetwork.Instantiate("DevilBullet", transform.position + new Vector3(0, 0, 0), Quaternion.identity)
 					.GetComponent<PhotonView>().RPC("DirRPC", RpcTarget.All, dir);
-				//PhotonNetwork.Instantiate("DevilBullet", transform.position + new Vector3(0, 0, 0), Quaternion.identity)
-				//	.GetComponent<PhotonView>().RPC("DirRPC", RpcTarget.All, dir);
 				MyDelay = 0.0f;
 				animator.SetTrigger("shot");
 			}
@@ -123,8 +134,9 @@ public class PlayerScript : MonoBehaviourPunCallbacks, IPunObservable
 
     public void Hit()
     {
-        HealthImage.fillAmount -= 0.1f;
-        if (HealthImage.fillAmount <= 0)
+		HpBar2.GetComponent<Image>().fillAmount -= 0.1f;
+		HealthImage.fillAmount -= 0.1f;
+        if (HealthImage.fillAmount <= 0 || HpBar2.GetComponent<Image>().fillAmount <= 0 )
         {
             GameObject.Find("Canvas").transform.Find("RespawnPanel").gameObject.SetActive(true);
             PV.RPC("DestroyRPC", RpcTarget.AllBuffered); // AllBuffered로 해야 제대로 사라져 복제버그가 안 생긴다
