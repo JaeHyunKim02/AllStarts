@@ -9,6 +9,7 @@ TagManager:
   - Wall
   - Object
   - ShootController
+  - BulletText
   layers:
   - Default
   - TransparentFX

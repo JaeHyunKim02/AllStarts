@@ -528,3 +528,5 @@ MonoBehaviour:
   AtkRad: 0
   variableJoystick: {fileID: 0}
   AtkJoyStick: {fileID: 0}
+  SkillCoolTime1: 0
+  SkillCoolTime2: 0
