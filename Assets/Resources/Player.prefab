@@ -848,8 +848,8 @@ MonoBehaviour:
   HealthImage: {fileID: 5945653702529527356}
   HpBar2: {fileID: 0}
   Gun: {fileID: 2924828527957726657}
-  DelayTime: 0.092
-  MoveSpeed: 17
+  DelayTime: 0.15
+  MoveSpeed: 20
 --- !u!1 &8496656147786382808
 GameObject:
   m_ObjectHideFlags: 0
