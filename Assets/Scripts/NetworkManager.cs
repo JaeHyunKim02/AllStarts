@@ -11,6 +11,7 @@ public class NetworkManager : MonoBehaviourPunCallbacks
     public GameObject DisconnectPanel;
     public GameObject RespawnPanel;
 
+	public GameObject PlayerCanv;
 
     void Awake()
     {
@@ -42,15 +43,19 @@ public class NetworkManager : MonoBehaviourPunCallbacks
 
     public void Spawn()
     {
-        PhotonNetwork.Instantiate("Player", new Vector3(Random.Range(-6f, 19f), 4, 0), Quaternion.identity);
+		PlayerCanv.SetActive(true);
         RespawnPanel.SetActive(false);
-    }
+        PhotonNetwork.Instantiate("Player", new Vector3(10 , 10, 0), Quaternion.identity);
+
+	}
 
     void Update() { if (Input.GetKeyDown(KeyCode.Escape) && PhotonNetwork.IsConnected) PhotonNetwork.Disconnect(); }
 
     public override void OnDisconnected(DisconnectCause cause)
     {
         DisconnectPanel.SetActive(true);
-        RespawnPanel.SetActive(false);
+		PlayerCanv.SetActive(false);
+
+		RespawnPanel.SetActive(false);
     }
 }

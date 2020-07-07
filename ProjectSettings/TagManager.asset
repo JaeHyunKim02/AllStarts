@@ -6,6 +6,9 @@ TagManager:
   tags:
   - Bullet
   - Ground
+  - Wall
+  - Object
+  - ShootController
   layers:
   - Default
   - TransparentFX
